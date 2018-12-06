@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Catalog.Pages.ConstellationPage">
+    <ContentPage.Content>
+        <StackLayout x:Name="OurStackLayout">
+            <TableView x:Name="OurTableView">
+                <TableView.Root>
+                    <TableRoot>
+
+
+                    </TableRoot>
+                </TableView.Root>
+            </TableView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

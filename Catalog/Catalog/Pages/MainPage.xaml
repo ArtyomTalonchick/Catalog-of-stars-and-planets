@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Catalog"
+             x:Class="Catalog.MainPage"
+             Title="Меню">
+
+    <ContentPage.Content>
+        <StackLayout Padding="10,10,10,10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+            <Button x:Name="ConstellationButton" Text="Звездные системы" Clicked="ConstellationButton_Clicked"/>
+            <Button x:Name="StarButton" Text="Звезды" Clicked="StarButton_Clicked"/>
+            <Button x:Name="PlanetButton" Text="Планеты" Clicked="PlanetButton_Clicked"/>
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>
