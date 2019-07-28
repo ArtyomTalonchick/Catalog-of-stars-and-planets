@@ -12,20 +12,16 @@ using System.ComponentModel;
 namespace Catalog.CollClass
 {
     [Serializable]
-    public class MyCollection<T> :  IEnumerable<T>   //, INotifyPropertyChanged
+    public class MyCollection<T> : IEnumerable<T>, INotifyCollectionChanged
     {
-        /*/
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        void OnPropertyChanged(string propertyName = null)
+        [field: NonSerialized]
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public void OnCollectionChanged(NotifyCollectionChangedAction action, object changedItem)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(action, changedItem));
         }
-        /*/
 
-        //поля
+        //поля 
         private List<T> list { get; set; }
         //конструктор
         public MyCollection(params T[] _array)
@@ -51,10 +47,20 @@ namespace Catalog.CollClass
         }
 
         //методы
-        public void Add(T item) => list.Add(item);
+        public void Add(T item)
+        {
+     //       if (list.Contains(item))
+       //         return;
+    //        OnCollectionChanged(NotifyCollectionChangedAction.Add, this);
+            list.Add(item);
+        }
         public void Clear() => list.Clear();
         public void CopyTo(T[] array, int arrayIndex) => list.CopyTo(array, arrayIndex);
-        public bool Remove(T item) => list.Remove(item);
+        public bool Remove(T item)
+        {
+            OnCollectionChanged(NotifyCollectionChangedAction.Remove, this);
+            return list.Remove(item);
+        }
         public int Count() => list.Count();
         public void OrderByString()
         {
@@ -78,18 +84,7 @@ namespace Catalog.CollClass
             }
             return result;
         }
-
-
-        //привязка данных
-/*/
-        public static readonly BindableProperty collectionProperty = BindableProperty.Create("collection", typeof(T), typeof(ListView));
-        public T collection
-        {
-            get => (T) GetValue(collectionProperty);
-            set => SetValue(collectionProperty, value);
-        }
-  /*/      
-
+        
         //реализация интерфейса IEnumerable<T>
         public IEnumerator<T> GetEnumerator() => (new CollectionEnum(this));
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
@@ -123,6 +118,5 @@ namespace Catalog.CollClass
             void IEnumerator.Reset() => position = -1;
 
         }
-
     }   
 }

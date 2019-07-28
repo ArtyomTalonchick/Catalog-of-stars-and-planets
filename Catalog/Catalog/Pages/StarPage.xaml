@@ -1,17 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Catalog.Pages.StarPage">
+             xmlns:local="clr-namespace:Catalog"
+             x:Class="Catalog.Pages.StarPage"
+             xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             Title="{Binding Path=Name}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text = "{local:Translate Change}" Order = "Primary" Priority = "0" Clicked="ChangeStar"/>
+        <ToolbarItem Text = "{local:Translate Delete}" Order = "Primary" Priority = "1" Clicked="DeleteStar"/>
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        <StackLayout x:Name="OurStackLayout">
-            <TableView x:Name="OurTableView">
-                <TableView.Root>
-                    <TableRoot>
-
-
-                    </TableRoot>
-                </TableView.Root>
+        <StackLayout>
+            <forms:ChartView x:Name="Chart"  
+                               HeightRequest="300"/>
+            <TableView>
+                <TableRoot>
+                    <TableSection>
+                        <TextCell x:Name="NameCell" Text="{local:Translate Name}"  Tapped="OpenUri" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=Name}"/>
+                    </TableSection>
+                    <TableSection>
+                        <TextCell x:Name="WeightCell" Text="{local:Translate Weight}" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=Weight}"/>
+                    </TableSection>
+                    <TableSection>
+                        <TextCell x:Name="RadiusCell" Text="{local:Translate Radius}" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=Radius}"/>
+                    </TableSection>
+                    <TableSection>
+                        <TextCell x:Name="LuminosityCell" Text="{local:Translate Luminosity}" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=Luminosity}"/>
+                    </TableSection>
+                    <TableSection>
+                        <TextCell x:Name="TypeCell" Text="{local:Translate Type}" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=Type}"/>
+                    </TableSection>
+                </TableRoot>
             </TableView>
-        </StackLayout>
+        </StackLayout>       
     </ContentPage.Content>
+    
 </ContentPage>

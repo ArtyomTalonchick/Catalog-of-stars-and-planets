@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Catalog"
+             x:Class="Catalog.SettingPage"
+             Title="{local:Translate Settings}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="LabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="24"/>
+                <Setter Property="HorizontalOptions" Value="Center"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <Label Text="{local:Translate Color}" Style="{StaticResource LabelStyle}"/>
+            <StackLayout Orientation="Horizontal">
+                <Button x:Name="thBt" Text="{local:Translate Theme}" Style="{DynamicResource buttonStyle}" Clicked="ThemeColorSelection"/>
+                <Button x:Name="txBt" Text="{local:Translate Text}" Style="{DynamicResource buttonStyle}" Clicked="TextColorSelection"/>
+                <Button x:Name="dtBt" Text="{local:Translate Detail}" Style="{DynamicResource buttonStyle}" Clicked="DetailColorSelection"/>
+                <Button x:Name="btBt" Text="{local:Translate Buttons}" Style="{DynamicResource buttonStyle}" Clicked="ButtonColorSelection"/>
+            </StackLayout>
+           <!-- <Button x:Name="lanBt" Style="{DynamicResource buttonStyle}" Clicked="LanguageSelection"/>  -->
+            <StackLayout Orientation="Horizontal">
+                <Label Text="{local:Translate Animation}" Style="{StaticResource LabelStyle}"/>
+                <Switch x:Name="anmSw" HorizontalOptions="End" Toggled="AnimationChange"/>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

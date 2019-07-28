@@ -1,36 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
-
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+﻿using Xamarin.Forms;
+using Xamarin.Essentials;
+using System.ComponentModel;
 
 namespace Catalog
 {
-	public partial class App : Application
+	public partial class App : Application, INotifyPropertyChanged
     {
-        private MainPage mainPage;
-        public App ()
-        {           
-            InitializeComponent();
-            mainPage = new Catalog.MainPage();
-            MainPage = new NavigationPage(mainPage)
-            {
-                BarBackgroundColor = Color.FromHex("212121"),
-                BackgroundColor=Color.FromHex("9E9E9E")                
-            };      
+        public static double ScreenWidth;
+        public static double ScreenHeight;
 
+        private MainPage mainPage;
+        
+        public App ()
+        {
+            Settings();
+            InitializeComponent();
+            mainPage = new MainPage();
+            var navPage = new NavigationPage(mainPage)
+            {
+                BackgroundColor = Setting.BackColor,
+                BarBackgroundColor = Setting.BarColor,
+            };
+            MainPage = navPage;
+            mainPage.navPage = navPage;
         }
 
-
+        private void Settings()
+        {
+            var lan = Setting.Language;
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(lan);
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(lan);            
+        }
 
         protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+
+            mainPage.writeNameFile();
+
+            mainPage.addingItems();
+
+       //     mainPage.deserialize();
+        }
 
 		protected override void OnSleep ()
 		{
@@ -40,6 +50,6 @@ namespace Catalog
 		protected override void OnResume ()
 		{
             mainPage.serialize();
-		}
-	}
+        }
+    }
 }

@@ -1,10 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Catalog"
              x:Class="Catalog.Pages.CollectionPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text = "{local:Translate Add}" Order = "Primary" Priority = "0" Clicked="AddItem"/>
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
         <StackLayout x:Name="OurStackLayout">
-            <ListView x:Name="OurListView" ItemTapped="OurListView_ItemTapped"/>
+            <SearchBar x:Name="searchBar" TextChanged="searchBar_Changed"/>
+            <ListView x:Name="OurListView" ItemTapped="OurListView_ItemTapped" ItemSelected="OurListView_ItemSelected"/>
         </StackLayout>        
     </ContentPage.Content>
 </ContentPage>

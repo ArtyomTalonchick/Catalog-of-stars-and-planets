@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Catalog"
+             x:Class="Catalog.Pages.M_ObjectPage"
+             Title="{Binding Path=Name}">
+    <ContentPage.Content>
+        <TableView>
+            <TableRoot>
+                <TableSection>
+                    <ImageCell x:Name="ImageCell" ImageSource="{Binding Path=Image}" Tapped="imageCell_Tapped"/>
+                </TableSection>
+                <TableSection>
+                    <TextCell x:Name="NumberCell" Text="{local:Translate Number}" Tapped="OpenUri" Detail="{Binding Path=Number}" TextColor="#424242" DetailColor="Black"/>
+                </TableSection>
+                <TableSection>
+                    <TextCell x:Name="NameCell" Text="{local:Translate Name}"  Tapped="OpenUri" Detail="{Binding Path=Name}" TextColor="#424242" DetailColor="Black"/>
+                </TableSection>
+                <TableSection>
+                    <TextCell x:Name="NGCCell" Text="{local:Translate NGC}" Detail="{Binding Path=NGC}" TextColor="#424242" DetailColor="Black"/>
+                </TableSection>
+                <TableSection>
+                    <TextCell x:Name="EquatorialCoordinatesCell" Text="{local:Translate EquatorialCoordinates}" Detail="{Binding Path=EquatorialCoordinates}" TextColor="#424242" DetailColor="Black"/>
+                </TableSection>
+                <TableSection>
+                    <TextCell x:Name="GlitterCell" Text="{local:Translate Glitter}" Detail="{Binding Path=Glitter}" TextColor="#424242" DetailColor="Black"/>
+                </TableSection>
+                <TableSection>
+                    <TextCell x:Name="SizeCell" Text="{local:Translate Size}" Detail="{Binding Path=Size}" TextColor="#424242" DetailColor="Black"/>
+                </TableSection>
+                <TableSection>
+                    <TextCell x:Name="NumberOfStarsCell" Text="{local:Translate NumberOfStars}" Detail="{Binding Path=NumberOfStars}" TextColor="#424242" DetailColor="Black"/>
+                </TableSection>
+                <TableSection>
+                    <TextCell x:Name="DistanceCell" Text="{local:Translate Distance}" Detail="{Binding Path=Distance}" TextColor="#424242" DetailColor="Black"/>
+                </TableSection>
+              <!--  <TableSection>
+                    <TextCell x:Name="TypeCell" Text="{local:Translate Type}" Detail="{Binding Path=Name}" TextColor="#424242" DetailColor="Black"/>
+                </TableSection>
+                -->
+            </TableRoot>
+        </TableView>
+    </ContentPage.Content>
+</ContentPage>

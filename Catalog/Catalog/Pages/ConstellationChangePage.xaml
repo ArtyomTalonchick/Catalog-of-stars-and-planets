@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Catalog"
+             x:Class="Catalog.Pages.ConstellationChangePage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text = "{local:Translate Back}" Order = "Primary" Priority = "0" Clicked="Back"/>
+        <ToolbarItem Text = "{local:Translate Save}" Order = "Primary" Priority = "1" Clicked="Save"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <TableView x:Name="OurTableView">
+            <TableView.Root>
+                <TableRoot x:Name="changeRoot">
+                    <TableSection>
+                        <EntryCell x:Name="nameEntry" Label="{local:Translate Name}" Text="{Binding Name}" Keyboard="Default"/>
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="imageEntry" Label="{local:Translate Image}" Text="{Binding Image}" Keyboard="Default"/>
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="uriEntry" Label="URI" Text="{Binding Uri}" Keyboard="Default"/>
+                    </TableSection>
+                    <TableSection Title="{local:Translate Star}">
+                        <ViewCell>
+                            <Button x:Name="searcStarButton" Text="{local:Translate Star}" HorizontalOptions="Start" Clicked="searchStarButton_Clicked"/>
+                        </ViewCell>
+                        <ViewCell>
+                            <Button x:Name="deleteStarButton" Text="{local:Translate Change}" HorizontalOptions="Start" Clicked="deleteStarButton_Clicked"/>
+                        </ViewCell>
+                    </TableSection>
+                </TableRoot>
+            </TableView.Root>
+        </TableView>
+    </ContentPage.Content>
+    
+</ContentPage>

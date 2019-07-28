@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Catalog"
+             x:Class="Catalog.Pages.PlanetChangePage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text = "{local:Translate Back}" Order = "Primary" Priority = "0" Clicked="Back"/>
+        <ToolbarItem Text = "{local:Translate Save}" Order = "Primary" Priority = "1" Clicked="Save"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <TableView>
+            <TableView.Root>
+                <TableRoot>
+                    <TableSection>
+                        <EntryCell x:Name="nameEntry" Label="{local:Translate Name}" Text="{Binding Path=Name}" Keyboard="Default"/>
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="weightEntry" Label="{local:Translate Weight}" Text="{Binding Path=Weight}" Keyboard="Numeric"/>
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="radiusEntry" Label="{local:Translate Radius}" Text="{Binding Path=Radius}" Keyboard="Numeric"/>
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="PeriodOfRotationOnItsAxisCell" Label="{local:Translate PeriodOfRotationOnItsAxis}" Text="{Binding Path=PeriodOfRotationOnItsAxis}" Keyboard="Numeric" />
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="PeriodOfRotationAboutStarCell" Label="{local:Translate PeriodOfRotationAboutStar}" Text="{Binding Path=PeriodOfRotationAboutStar}" Keyboard="Numeric" />
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="RadiusOfOrbitCell" Label="{local:Translate RadiusOfOrbit}" Text="{Binding Path=RadiusOfOrbit}" Keyboard="Numeric" />
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="uriEntry" Label="URI" Text="{Binding Uri}" Keyboard="Default"/>
+                    </TableSection>
+                    <TableSection Title="{local:Translate Star}">
+                        <ViewCell>
+                            <Button x:Name="searchStarButton" Text="{local:Translate Star}" HorizontalOptions="Start" Clicked="searchStarButton_Clicked"/>
+                        </ViewCell>
+                    </TableSection>                  
+                </TableRoot>
+            </TableView.Root>
+        </TableView>
+    </ContentPage.Content>
+    
+</ContentPage>

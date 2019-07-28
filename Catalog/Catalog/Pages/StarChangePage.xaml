@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Catalog"
+             x:Class="Catalog.Pages.StarChangePage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text = "{local:Translate Back}" Order = "Primary" Priority = "0" Clicked="Back"/>
+        <ToolbarItem Text = "{local:Translate Save}" Order = "Primary" Priority = "1" Clicked="Save"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <TableView>
+            <TableView.Root>
+                <TableRoot>
+                    <TableSection>
+                        <EntryCell x:Name="nameEntry" Label="{local:Translate Name}" Keyboard="Default"/>
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="weightEntry" Label="{local:Translate Weight}" Keyboard="Numeric"/>
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="radiusEntry" Label="{local:Translate Radius}" Keyboard="Numeric"/>
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="luminosityEntry" Label="{local:Translate Luminosity}" Keyboard="Numeric"/>
+                    </TableSection>
+                    <TableSection>
+                        <EntryCell x:Name="uriEntry" Label="URI" Text="{Binding Uri}" Keyboard="Default"/>
+                    </TableSection>
+                    <TableSection>
+                        <ViewCell>
+                            <Picker x:Name="typePicker" Title="{local:Translate Type}"/>
+                        </ViewCell>
+                    </TableSection>
+                    <TableSection Title="{local:Translate Constellation}">
+                        <ViewCell>
+                            <Button x:Name="searchConstellButton" Text="{local:Translate Constellation}" HorizontalOptions="Start" Clicked="searchConstellButton_Clicked"/>
+                        </ViewCell>
+                    </TableSection>
+                    <TableSection Title="{local:Translate Planet}">
+                        <ViewCell>
+                            <Button x:Name="searchPlanetButton" Text="{local:Translate Planet}" HorizontalOptions="Start" Clicked="searchPlanetButton_Clicked"/>
+                        </ViewCell>
+                        <ViewCell>
+                            <Button x:Name="deletePlanetButton" Text="{local:Translate Change}" HorizontalOptions="Start" Clicked="deletePlanetButton_Clicked"/>
+                        </ViewCell>
+                    </TableSection>
+                </TableRoot>
+            </TableView.Root>
+        </TableView>
+    </ContentPage.Content>
+    
+</ContentPage>

@@ -4,7 +4,20 @@
              x:Class="Catalog.App">
 	<Application.Resources>
 
-		<!-- Application resource dictionary -->
+        <ResourceDictionary>
 
-	</Application.Resources>
+       <!--     <Style x:Key="buttonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#FAFAFA"/>
+                <Setter Property="TextColor" Value="#212121"/>
+            </Style>
+
+            <Style x:Key="st" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="Black"/>
+                <Setter Property="TextColor" Value="#212121"/>
+            </Style>
+            -->
+            
+        </ResourceDictionary>
+                  
+    </Application.Resources>
 </Application>

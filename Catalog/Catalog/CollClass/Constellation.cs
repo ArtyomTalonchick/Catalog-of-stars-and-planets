@@ -1,48 +1,44 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Catalog.CollClass
 {
     [Serializable]
-    public class Constellation
+    public class Constellation : INotifyPropertyChanged
     {
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+
+        public string Image { get; set; }
+        //положение на звездной карте
+
         //поля
         private string _name;
-        private object _images;
-        private MyCollection<Star> _stars;
-        //положение на звездной карте
+        public string Uri { get; set; }
 
         //свойства
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get => _name;
             set
             {
                 _name = value;
+                OnPropertyChanged("Name");
             }
         }
-        public MyCollection<Star> Stars
-        {
-            get
-            {
-                return _stars;
-            }
-            private set
-            {
-                _stars = value;
-            }
-        }
+        public MyCollection<Star> Stars { get; private set; }
+        public MyCollection<M_object> M_objects { get; private set; }
+
 
         //конструторы
         private Constellation()
         {
             Stars = new MyCollection<Star>();
+            M_objects = new MyCollection<M_object>();
         }
         public Constellation(string name_) : this()
         {
@@ -61,6 +57,11 @@ namespace Catalog.CollClass
             {
                 star.Constellation = null;
             }
+            foreach (var m_objects in M_objects)
+            {
+                m_objects.Constellation = null;
+            }
+            Data.AllConstellations.Remove(this);
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
@@ -72,6 +73,5 @@ namespace Catalog.CollClass
         {
             Stars.OrderByString();
         }
-
     }
 }

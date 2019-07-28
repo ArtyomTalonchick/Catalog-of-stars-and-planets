@@ -1,132 +1,137 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Catalog.CollClass;
-
+using Xamarin.Essentials;
 
 namespace Catalog.Pages
 {
+    
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CollectionPage : ContentPage
-    {
-        private class BindCollection<T> : BindableObject
-        {
-            public static readonly BindableProperty collectionProperty = BindableProperty.Create("collection", typeof(MyCollection<T>), typeof(ListView));
-            public MyCollection<T> collection
-            {
-                get => (MyCollection<T>) GetValue(collectionProperty);
-                set => SetValue(collectionProperty, value);
-            }
-        }
-
-        public enum TypeItemsOfColl { Constellation, Star, Planet };
+    {      
+        public enum TypeItemsOfColl { Constellation, Star, Planet, M_Object };
         private TypeItemsOfColl TypeItem { get; set; }
+
         private MyCollection<Constellation> Constellations { get; set; }
         private MyCollection<Star> Stars { get; set; }
         private MyCollection<Planet> Planets { get; set; }
+        private MyCollection<M_object> M_objects { get; set; }
 
-        private Star newStar { get; set; }
-        private Editor searchEditor { get; set; }
-        private bool isSearch { get; set; }
-
-        private CollectionPage()
+        
+        public CollectionPage(MyCollection<Constellation> _constellations, MyCollection<Star> _stars, MyCollection<Planet> _planets, MyCollection<M_object> _m_Objects, TypeItemsOfColl _typeItem)
         {
             InitializeComponent();
-            ToolbarInitialize();
-            searchEditor = new Editor();
-            searchEditor.TextChanged += (_s, _e) => searchEditor_Changed(_s, _e);
-            isSearch = false;
-        }
-        public CollectionPage(MyCollection<Constellation> constellations, MyCollection<Star> stars, MyCollection<Planet> planets, TypeItemsOfColl typeItem) : this()
-        {
-            Constellations = constellations;
-            Stars = stars;
-            Planets = planets;
-            TypeItem = typeItem;
 
+            Constellations = _constellations;
+            Stars = _stars;
+            Planets = _planets;
+            M_objects = _m_Objects;
+
+            TypeItem = _typeItem;
+            
             if (TypeItem == TypeItemsOfColl.Constellation)
             {
-                Title = "Звездные системы";
+                Title = Language.Constellation;
                 OurListView.ItemsSource = Constellations;
-            //    OurListView.BindingContext = constellations;
-              //  OurListView.SetBinding(ListView.ItemsSourceProperty, "collectionProperty");
+                OurListView.ItemTemplate = new DataTemplate(() =>
+                {
+                    ImageCell imageCell = new ImageCell { TextColor = Setting.TextColor, DetailColor = Setting.DetailColor };
+                    imageCell.SetBinding(ImageCell.TextProperty, "Name");
+                    imageCell.SetBinding(ImageCell.ImageSourceProperty, "Image");
+                    return imageCell;
+                });                
             }
             else if (TypeItem == TypeItemsOfColl.Star)
             {
-                Title = "Звезды";
-                BindCollection<Star> st = new BindCollection<Star> { collection = Stars };
-                OurListView.ItemsSource = st.collection;
-                OurListView.BindingContext = st;
-                OurListView.SetBinding(ListView.ItemsSourceProperty, "collection");
+                Title = Language.Star;
+                OurListView.ItemsSource = Stars;
+                OurListView.ItemTemplate = new DataTemplate(() =>
+                {
+                    ImageCell imageCell = new ImageCell { TextColor = Setting.TextColor, DetailColor = Setting.DetailColor };
+                    imageCell.SetBinding(ImageCell.TextProperty, "Name");
+                    Binding typeBinding = new Binding { Path = "Constellation", StringFormat = Language.Constellation + ": {0}" };
+                    imageCell.SetBinding(ImageCell.DetailProperty, typeBinding);
+                    imageCell.SetBinding(ImageCell.ImageSourceProperty, "Image.Source");
+                    return imageCell;
+                });                
             }
             else if (TypeItem == TypeItemsOfColl.Planet)
             {
-                Title = "Планеты";
+                Title = Language.Planet;
                 OurListView.ItemsSource = Planets;
-           //     OurListView.BindingContext = planets;
-             //   OurListView.SetBinding(ListView.ItemsSourceProperty, "PropertyChanged");
+                OurListView.ItemTemplate = new DataTemplate(() =>
+                {
+                    ImageCell imageCell = new ImageCell { TextColor = Setting.TextColor, DetailColor = Setting.DetailColor };
+                    imageCell.SetBinding(ImageCell.TextProperty, "Name");
+                    Binding typeBinding = new Binding { Path = "Star", StringFormat = Language.Star + ": {0}" };
+                    imageCell.SetBinding(ImageCell.DetailProperty, typeBinding);
+                    imageCell.SetBinding(ImageCell.ImageSourceProperty, "Image.Source");
+                    return imageCell;
+                });               
+            }
+            else if (TypeItem == TypeItemsOfColl.M_Object)
+            {
+                Title = Language.M_Object;
+                OurListView.ItemsSource = M_objects;
+                OurListView.ItemTemplate = new DataTemplate(() =>
+                {
+                    ImageCell imageCell = new ImageCell { TextColor = Setting.TextColor, DetailColor = Setting.DetailColor };
+                    imageCell.SetBinding(ImageCell.TextProperty, "Name");
+                    Binding typeBinding = new Binding { Path = "Number", StringFormat = "№ {0}" };
+                    imageCell.SetBinding(ImageCell.DetailProperty, typeBinding);
+                    imageCell.SetBinding(ImageCell.ImageSourceProperty, "Image");                    
+                    return imageCell;
+                });
+                ToolbarItems.Clear();
             }
         }
-       
-        private void ToolbarInitialize()
-        {
-            ToolbarItem searchTb = new ToolbarItem()
-            {
-                Text = "Поиск",
-                Order = ToolbarItemOrder.Secondary,
-                Priority = 1,
 
-            };
-            ToolbarItem addTb = new ToolbarItem()
-            {
-                Text = "Добавить",
-                Order = ToolbarItemOrder.Secondary,
-                Priority = 1
-            };
-            searchTb.Clicked += (s, e) => searchTb_Clicked(s, e);
-            addTb.Clicked += async (s, e) => await Navigation.PushAsync(new Pages.AddItemPage(Constellations, Stars, Planets, TypeItem));
-            ToolbarItems.Add(searchTb);
-            ToolbarItems.Add(addTb);
-        }
-
-        private void searchTb_Clicked (object sender, EventArgs e)
-        {
-            isSearch = !isSearch;
-            if(isSearch)
-            {
-                OurStackLayout.Children.Clear();
-                OurStackLayout.Children.Add(searchEditor);
-                OurStackLayout.Children.Add(OurListView);
-            }
-            else
-            {
-                OurStackLayout.Children.Clear();
-                OurStackLayout.Children.Add(OurListView);
-            }
-        }
-        
-        private void searchEditor_Changed(object sender, EventArgs e)
+        private async void AddItem(object s, EventArgs e)
         {
             if (TypeItem == TypeItemsOfColl.Constellation)
-                OurListView.ItemsSource = Constellations.Search(((Editor)sender).Text);
+            {
+                await Navigation.PushAsync(new ConstellationChangePage(null));
+            }
             else if (TypeItem == TypeItemsOfColl.Star)
-                OurListView.ItemsSource = Stars.Search(((Editor)sender).Text);
+            {
+                await Navigation.PushAsync(new StarChangePage(null));
+            }
             else if (TypeItem == TypeItemsOfColl.Planet)
-                OurListView.ItemsSource = Planets.Search(((Editor)sender).Text);
+            {
+                await Navigation.PushAsync(new PlanetChangePage(null));
+            }
+            else if (TypeItem == TypeItemsOfColl.M_Object)
+            {
+
+            };
+        }
+
+        private void searchBar_Changed(object sender, EventArgs e)
+        {
+            if (TypeItem == TypeItemsOfColl.Constellation)
+                OurListView.ItemsSource = Constellations.Search(searchBar.Text);
+            else if (TypeItem == TypeItemsOfColl.Star)
+                OurListView.ItemsSource = Stars.Search(searchBar.Text);
+            else if (TypeItem == TypeItemsOfColl.Planet)
+                OurListView.ItemsSource = Planets.Search(searchBar.Text);
         }
 
         private async void OurListView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             if(TypeItem == TypeItemsOfColl.Constellation)
-                await Navigation.PushAsync(new Pages.ConstellationPage((Constellation)e.Item, Constellations, Stars, Planets));
+                await Navigation.PushAsync(new ConstellationTabbedPage((Constellation)e.Item));
             else if (TypeItem == TypeItemsOfColl.Star)
-                await Navigation.PushAsync(new Pages.StarPage((Star)e.Item, Constellations, Stars, Planets));
+                await Navigation.PushAsync(new StarTabbedPage((Star)e.Item));
             else if (TypeItem == TypeItemsOfColl.Planet)
-                await Navigation.PushAsync(new Pages.PlanetPage((Planet)e.Item, Constellations, Stars, Planets));
+                await Navigation.PushAsync(new PlanetTabbedPage((Planet)e.Item));
+            else if (TypeItem == TypeItemsOfColl.M_Object)
+                await Navigation.PushAsync(new M_ObjectTabbedPage((M_object)e.Item));
+        }
+
+        private void OurListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
         }
     }
 }

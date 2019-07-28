@@ -1,107 +1,116 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+
 
 namespace Catalog.CollClass
 {
     [Serializable]
-    public class Star
+    public class Star : INotifyPropertyChanged
     {
+        [field: NonSerialized]
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+
         //перечисление типо звезд
         public enum typeOfStar
-        { Unknown, BrownDwarf, WhiteDwarf, RedGiant, VariableStar, TypeWolf_Rayet, TTS, New, Supernova, Hypernova, LBV, ULX, Neutron, Unique}
+        { Unknown, O, B, A, F, G, K, M }
 
         //поля
         private string _name;
         private double _weight;
         private double _radius;
         private double _luminosity;
-        public typeOfStar type { get; set; }
+        private typeOfStar _type;
         private Constellation _constellation;
         private MyCollection<Planet> _planets;       //
+        public string Uri { get; set; }
 
         //свойства
         public string Name
         {
-            get
-            {
-                return _name;
-            }
+            get => _name;
             set
             {
                 _name = value;
+                OnPropertyChanged("Name");
             }
         }
         public double Weight
         {
-            get
-            {
-                return _weight;
-            }
+            get => _weight;
             set
             {
                 if (value > 0)
                     _weight = value;
                 else
                     _weight = 0;
+                OnPropertyChanged("Weight");
             }
         }
         public double Radius
         {
-            get
-            {
-                return _radius;
-            }
+            get => _radius;
             set
             {
                 if (value > 0)
                     _radius = value;
                 else
                     _radius = 0;
+                OnPropertyChanged("Radius");
             }
         }
         public double Luminosity
         {
-            get
-            {
-                return _luminosity;
-            }
+            get => _luminosity;
             set
             {
                 if (value > 0)
                     _luminosity = value;
                 else
                     _luminosity = 0;
+                OnPropertyChanged("Luminosity");
+            }
+        }
+        public typeOfStar Type
+        {
+            get => _type;
+            set
+            {
+                _type = value;
+                OnPropertyChanged("Type");
             }
         }
         public Constellation Constellation
         {
             get
             {
+                OnPropertyChanged("Constellation");
                 return _constellation;
             }
             set
             {
                 if (_constellation != null)
                     _constellation.Stars.Remove(this);
-                if (value != null) 
-                {
-                    _constellation = value;
-                    (value as Constellation).Stars.Add(this);
-                }
+                _constellation = value;
+                if (_constellation != null)
+                    (_constellation as Constellation).Stars.Add(this);
+                OnPropertyChanged("Constellation");
             }
         }
         public MyCollection<Planet> Planets
         {
             get
             {
+                OnPropertyChanged("Planets");
                 return _planets;
             }
             private set
             {
                 _planets = value;
+                OnPropertyChanged("Planets");
             }
         }
 
@@ -113,7 +122,7 @@ namespace Catalog.CollClass
         public Star(string name_) : this()
         {
             Name = name_;
-            type = typeOfStar.Unknown;
+            Type = typeOfStar.Unknown;
         }
         //деструктор
         ~Star()
@@ -124,11 +133,13 @@ namespace Catalog.CollClass
         //методы
         public void Delete()
         {
-            Constellation.Stars.Remove(this);
+            if (Constellation != null)
+                Constellation.Stars.Remove(this);
             foreach(var planet in Planets)
             {
                 planet.Star = null;
             }
+            Data.AllStars.Remove(this);
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }

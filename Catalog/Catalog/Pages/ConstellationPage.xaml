@@ -1,17 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Catalog.Pages.ConstellationPage">
+             xmlns:local="clr-namespace:Catalog"
+             x:Class="Catalog.Pages.ConstellationPage"
+             Title="{Binding Path=Name}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text = "{local:Translate Change}" Order = "Primary" Priority = "0" Clicked="ChangeConstellation"/>
+        <ToolbarItem Text = "{local:Translate Delete}" Order = "Primary" Priority = "1" Clicked="DeleteConstellation"/>
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
-        <StackLayout x:Name="OurStackLayout">
-            <TableView x:Name="OurTableView">
-                <TableView.Root>
-                    <TableRoot>
-
-
-                    </TableRoot>
-                </TableView.Root>
-            </TableView>
-        </StackLayout>
+        <TableView>
+            <TableRoot>
+                <TableSection>
+                    <ImageCell x:Name="ImageCell" Tapped="imageCell_Tapped" ImageSource="{Binding Path=Image}"/>
+                </TableSection>
+                <TableSection>
+                    <TextCell x:Name="NameCell" Text="{local:Translate Name}" Tapped="OpenUri" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=Name}" />
+                </TableSection>
+            </TableRoot>
+        </TableView>
     </ContentPage.Content>
+    
 </ContentPage>

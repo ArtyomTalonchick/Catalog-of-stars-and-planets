@@ -1,18 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:Catalog"
              x:Class="Catalog.Pages.PlanetPage"
-             >
+             xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             Title="{Binding Path=Name}">
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text = "{local:Translate Change}" Order = "Primary" Priority = "0" Clicked="ChangePlanet"/>
+        <ToolbarItem Text = "{local:Translate Delete}" Order = "Primary" Priority = "1" Clicked="DeletePlanet"/>
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        <StackLayout x:Name="OurStackLayout">
-            <TableView x:Name="OurTableView">
-                <TableView.Root>
-                    <TableRoot>
-
-
-                    </TableRoot>
-                </TableView.Root>
+        <StackLayout x:Name="stack">
+            <forms:ChartView x:Name="Chart"  
+                               HeightRequest="300"/>
+            <TableView>
+                <TableRoot>
+                    <TableSection>
+                        <TextCell x:Name="NameCell" Text="{local:Translate Name}"  Tapped="OpenUri" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=Name}" />
+                    </TableSection>
+                    <TableSection>
+                        <TextCell x:Name="WeightCell" Text="{local:Translate Weight}" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=Weight}" />
+                    </TableSection>
+                    <TableSection>
+                        <TextCell x:Name="RadiusCell" Text="{local:Translate Radius}" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=Radius}" />
+                    </TableSection>
+                    <TableSection>
+                        <TextCell x:Name="PeriodOfRotationOnItsAxisCell" Text="{local:Translate PeriodOfRotationOnItsAxis}" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=PeriodOfRotationOnItsAxis}" />
+                    </TableSection>
+                    <TableSection>
+                        <TextCell x:Name="PeriodOfRotationAboutStarCell" Text="{local:Translate PeriodOfRotationAboutStar}" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=PeriodOfRotationAboutStar}" />
+                    </TableSection>
+                    <TableSection>
+                        <TextCell x:Name="RadiusOfOrbitCell" Text="{local:Translate RadiusOfOrbit}" TextColor="#424242" DetailColor="Black" Detail="{Binding Path=RadiusOfOrbit}" />
+                    </TableSection>
+                </TableRoot>
             </TableView>
-        </StackLayout>
+        </StackLayout>       
     </ContentPage.Content>
+    
 </ContentPage>
